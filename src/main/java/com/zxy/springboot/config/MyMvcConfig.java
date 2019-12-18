@@ -1,9 +1,12 @@
 package com.zxy.springboot.config;
 
+import com.zxy.springboot.component.LoginHandlerInterceptor;
 import com.zxy.springboot.component.MyLocaleResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -23,16 +26,37 @@ public class MyMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/zxy").setViewName("success");
     }
 
+    /**
+     * 注册拦截器
+     *
+     * @param registry
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**").excludePathPatterns("/index.html","/","/asserts/**","/webjars/**","/user/login");
+    }
+
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        //静态文件
+//        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+//        //webjar文件
+//        registry.addResourceHandler("/webjars/**").addResourceLocations("/webjars/");
+//    }
+
     // 所有的WebMvcConfigurer组件会一起起作用
     @Bean
     public WebMvcConfigurer webMvcConfigurer() {
-        WebMvcConfigurer confogurer = new WebMvcConfigurer(){
+        WebMvcConfigurer confogurer = new WebMvcConfigurer() {
             @Override
             public void addViewControllers(ViewControllerRegistry registry) {
                 registry.addViewController("/").setViewName("login");
                 registry.addViewController("/index.html").setViewName("login");
+                registry.addViewController("/main.html").setViewName("dashboard");
+
             }
         };
+
         return confogurer;
     }
 
