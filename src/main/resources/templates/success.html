@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>欢迎访问thymeleaf页面</h1>
+    <hr/>
+
+    <!--  th:text 将div里面的文本设置为某个值  -->
+    <div id=div01 class="myDiv" th:id="${name}" th:class="${name}" th:text="${name}"></div>
+    <hr/>
+
+    <div th:text="${name}"></div>
+    <!-- th:utext 不会转义特殊字符 -->
+    <div th:utext="${name}"></div>
+    <hr/>
+
+    <h4 th:text="${employee}" th:each="employee:${employees}"></h4>
+    <hr/>
+
+    <h4>
+        <span th:each="employee:${employees}"> [[${employee}]] </span>
+    </h4>
+</body>
+</html>
