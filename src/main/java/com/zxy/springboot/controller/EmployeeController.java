@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
 
@@ -18,19 +20,31 @@ import java.util.Collection;
 public class EmployeeController {
 
     @Autowired
-    private  EmployeeDao employeeDao;
+    EmployeeDao employeeDao;
 
     /**
      * 查询所有员工，返回员工列表页面（emp/list.html)
      * @return
      */
-    @GetMapping("emps")
-    public String list(Model model) {
+    @GetMapping("/emps")
+//    public String list(Model model) {
+//        Collection<Employee> employees = employeeDao.getAll();
+//        // 把查询出来的数据放在请求域进行共享
+//        model.addAttribute("emps","employees");
+//        // thymeleaf会默认拼串  classpath:/templates/xxx.html
+//        return "emp/list";
+//    }
+
+    public ModelAndView list() {
+        ModelAndView mv = new ModelAndView();
         Collection<Employee> employees = employeeDao.getAll();
 
-        // 把查询出来的数据放在请求域进行共享
-        model.addAttribute("emps","employees");
-        // thymeleaf会默认拼串  classpath:/templates/xxx.html
-        return "emp/list";
+        // 把employees对象存到mv对象中，也会把user对象存到request对象中
+        mv.addObject("emps",employees);
+        // 跳转到list页面
+        mv.setViewName("emp/list");
+        return mv;
+
+
     }
 }

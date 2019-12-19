@@ -43,7 +43,7 @@ public class EmployeeDao {
      *
      * @return
      */
-    public Collection<Employee> getAll() {
+    public Collection<Employee> getAll(){
         return employees.values();
     }
 
