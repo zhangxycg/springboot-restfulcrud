@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,6 +30,7 @@ public class EmployeeController {
 
     /**
      * 查询所有员工，返回员工列表页面（emp/list.html)
+     *
      * @return
      */
     @GetMapping("/emps")
@@ -45,7 +47,7 @@ public class EmployeeController {
         Collection<Employee> employees = employeeDao.getAll();
 
         // 把employees对象存到mv对象中，也会把user对象存到request对象中
-        mv.addObject("emps",employees);
+        mv.addObject("emps", employees);
         // 跳转到list页面
         mv.setViewName("emp/list");
         return mv;
@@ -53,7 +55,8 @@ public class EmployeeController {
     }
 
     /**
-     * 员工添加
+     * 跳转到员工添加页面
+     *
      * @param model
      * @return
      */
@@ -61,7 +64,26 @@ public class EmployeeController {
     public String toAddPage(Model model) {
         // 来到添加页面,查询出所有的部门信息，在页面显示
         Collection<Department> departments = departmentDao.getDepartments();
-        model.addAttribute("depts",departments);
+        model.addAttribute("depts", departments);
         return "emp/add";
+    }
+
+
+    /**
+     * 员工添加
+     * 页面发送emp  post请求，把数据拿过来进行添加
+     * SpringMVC自动将请求参数和入参对象的属性一一绑定. 要求请求参数的名字和javaBean入参的对象里面的属性是一致的
+     * @return
+     */
+    @PostMapping("/emp")
+    public String addEmp(Employee employee) {
+
+        // 来到员工列表页面
+
+        System.out.println("保存的员工信息：" + employee);
+        employeeDao.save(employee);
+        // redirct 表示重定向到一个地址  /表示当前的项目路径
+        // forward 表示转发到一个地址
+        return "redirect:/emps";
     }
 }

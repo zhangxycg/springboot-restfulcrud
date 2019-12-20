@@ -54,14 +54,14 @@
         <div th:replace="commons/bar::#sidebar(activeUri='emps')"></div>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <form>
+            <form th:action="@{/emp}" method="post">
                 <div class="form‐group">
                     <label>LastName</label>
-                    <input type="text" class="form-control" placeholder="zhangsan">
+                    <input name="lastName" type="text" class="form-control" placeholder="zhangsan">
                 </div>
                 <div class="form‐group">
                     <label>Email</label>
-                    <input type="email" class="form-control" placeholder="zhangsan@atguigu.com">
+                    <input name="email" type="email" class="form-control" placeholder="zhangsan@126.com">
                 </div>
                 <div class="form‐group">
                     <label>Gender</label><br/>
@@ -76,14 +76,14 @@
                 </div>
                 <div class="form‐group">
                     <label>department</label>
-                    <select class="form-control">
+                    <select class="form-control" name="department.id">
                         <option th:value="${dept.id}" th:each="dept:${depts}" th:text="${dept.departmentName}">1</option>
 
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Birth</label>
-                    <input type="text" class="form-control" placeholder="zhangsan">
+                    <input name="birth" type="text" class="form-control" placeholder="zhangsan">
                 </div>
                 <button type="submit" class="btn btn-primary">添加</button>
             </form>
