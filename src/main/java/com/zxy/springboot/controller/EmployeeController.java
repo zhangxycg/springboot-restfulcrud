@@ -1,6 +1,8 @@
 package com.zxy.springboot.controller;
 
+import com.zxy.springboot.dao.DepartmentDao;
 import com.zxy.springboot.dao.EmployeeDao;
+import com.zxy.springboot.pojo.Department;
 import com.zxy.springboot.pojo.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,9 @@ public class EmployeeController {
 
     @Autowired
     EmployeeDao employeeDao;
+
+    @Autowired
+    DepartmentDao departmentDao;
 
     /**
      * 查询所有员工，返回员工列表页面（emp/list.html)
@@ -45,6 +50,18 @@ public class EmployeeController {
         mv.setViewName("emp/list");
         return mv;
 
+    }
 
+    /**
+     * 员工添加
+     * @param model
+     * @return
+     */
+    @GetMapping("/emp")
+    public String toAddPage(Model model) {
+        // 来到添加页面,查询出所有的部门信息，在页面显示
+        Collection<Department> departments = departmentDao.getDepartments();
+        model.addAttribute("depts",departments);
+        return "emp/add";
     }
 }
