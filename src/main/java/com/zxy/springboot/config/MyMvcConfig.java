@@ -17,7 +17,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class MyMvcConfig implements WebMvcConfigurer {
-    // 注意：2.0以上版本需要实现 WebMvcConfigurer ，而不是WebMvcConfigurerAdapter
+
+  // 注意：2.0以上版本需要实现 WebMvcConfigurer ，而不是WebMvcConfigurerAdapter
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         //super.addViewControllers(registry);
