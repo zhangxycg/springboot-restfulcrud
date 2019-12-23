@@ -90,19 +90,7 @@ public class EmployeeController {
      * @param
      * @return
      */
-    @GetMapping("/emp{id}")
-//    public String toEditPage(@PathVariable("id") Integer id,Model model) {
-//        // 查出员工数据并保存
-//        Employee employee = employeeDao.get(id);
-//        model.addAttribute("emp","employee");
-//
-//        // 页面要显示所有的部门列表
-//        Collection<Department> departments = departmentDao.getDepartments();
-//        model.addAttribute("depts",departments);
-//        // 回到编辑页面(add.html 包含修改页面和添加页面）
-//        return "emp/add";
-//
-//    }
+    @GetMapping("/emp/{id}")
     public ModelAndView toEditPage(@PathVariable("id") Integer id) {
         ModelAndView mv = new ModelAndView("emp/edit");
         // 查出员工数据并保存
@@ -114,10 +102,29 @@ public class EmployeeController {
         return mv;
     }
 
+    /**
+     * 员工修改
+     * @param employee
+     * @return
+     */
     @PutMapping("/emp")
     public String updateEmployee(Employee employee) {
         System.out.println("修改的员工数据："+employee);
         employeeDao.save(employee);
         return "redirect:/emps";
     }
+
+    /**
+     * 员工删除
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/emp/{id}")
+    public ModelAndView deleteEmployee(@PathVariable("id") Integer id) {
+        ModelAndView mv = new ModelAndView("redirect:/emps");
+        employeeDao.delete(id);
+
+        return mv;
+    }
+
 }
