@@ -30,7 +30,7 @@ public class LoginController {
             // 登录成功，跳转页面
             // return "dashboard";
             // 如果用户登录了，将信息存在session中
-            session.setAttribute("loginUser",username);
+            session.setAttribute("loginUser", username);
             // 防止表单重复提交，可以重定向到主页
             return "redirect:/main.html";
         } else {

@@ -7,9 +7,7 @@ import com.zxy.springboot.pojo.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
@@ -79,11 +77,47 @@ public class EmployeeController {
     public String addEmp(Employee employee) {
 
         // 来到员工列表页面
-
         System.out.println("保存的员工信息：" + employee);
         employeeDao.save(employee);
         // redirct 表示重定向到一个地址  /表示当前的项目路径
         // forward 表示转发到一个地址
+        return "redirect:/emps";
+    }
+
+    /**
+     * 来到修改页面，查询出员工数据，在页面进行回显
+     * @param id
+     * @param
+     * @return
+     */
+    @GetMapping("/emp{id}")
+//    public String toEditPage(@PathVariable("id") Integer id,Model model) {
+//        // 查出员工数据并保存
+//        Employee employee = employeeDao.get(id);
+//        model.addAttribute("emp","employee");
+//
+//        // 页面要显示所有的部门列表
+//        Collection<Department> departments = departmentDao.getDepartments();
+//        model.addAttribute("depts",departments);
+//        // 回到编辑页面(add.html 包含修改页面和添加页面）
+//        return "emp/add";
+//
+//    }
+    public ModelAndView toEditPage(@PathVariable("id") Integer id) {
+        ModelAndView mv = new ModelAndView("emp/edit");
+        // 查出员工数据并保存
+        Employee employee = employeeDao.get(id);
+        mv.addObject("emp",employee);
+        // 页面要显示所有的部门列表
+        Collection<Department> departments = departmentDao.getDepartments();
+        mv.addObject("departments",departments);
+        return mv;
+    }
+
+    @PutMapping("/emp")
+    public String updateEmployee(Employee employee) {
+        System.out.println("修改的员工数据："+employee);
+        employeeDao.save(employee);
         return "redirect:/emps";
     }
 }
